@@ -17,26 +17,19 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 > sudo python3 clue.py &
 
-[//]: # (
-export FLASK_APP=clue.py
-export FLASK_ENV=development
-flask run --host=0.0.0.0:80
-)
+----
 
-## For development and testing ##
+## RaspberryPi ##
 
-> pip install requests
+### [To set it to start on boot up](http://www.raspberry-projects.com/pi/pi-operating-systems/raspbian/scripts "Setup") ###
 
-``` python
-r = requests.post('http://192.168.1.5/speak/', json = {'key':'It is time for some testing.'})
-```
+>sudo chmod 755 startup_script
+>
+>sudo nano /etc/rc.local
 
-or test it localy
+at the end of the file but before "exit 0" add
 
-``` python
-import os
-os.system('espeak -ven+m6 -s125 "It is time for some testing." ')
-```
+>/home/pi/projects/Alfred657/startup_script
 
 ## Audio problems on Raspberry Pi ##
 
@@ -48,7 +41,7 @@ os.system('espeak -ven+m6 -s125 "It is time for some testing." ')
 >
 > amixer sset 'PCM' 50%
 
-### [Output](https://www.raspberrypi.org/documentation/configuration/audio-config.md "Output") ###
+### [Audio Output](https://www.raspberrypi.org/documentation/configuration/audio-config.md "Audio Output") ###
 
 > amixer cset numid=3 2
 
@@ -57,3 +50,27 @@ os.system('espeak -ven+m6 -s125 "It is time for some testing." ')
  Setting the output to 1 switches to analogue (headphone jack).
 
  The default setting is 0 which is automatic.
+
+----
+## For development and testing ##
+
+> pip install requests, json
+
+``` python
+import requsts, json
+r = requests.post('http://192.168.1.3/speak/', 
+                  json = {'key':'It is time for some testing.'})
+```
+
+or test it localy
+
+``` python
+import os
+os.system('espeak -ven+m6 -s125 "It is time for some testing." ')
+```
+
+----
+
+## TODO ##
+
+* setting for voice type and number ?

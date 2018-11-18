@@ -12,7 +12,7 @@ def speak():
             jsonfile = request.get_json()
             key = jsonfile['key']
             os.system('espeak -ven+m6 -s125 "{0}" '.format(key))
-        except Exception as e:
+        except Exception:
             # logging ?
             return abort(400)
         return 'Success'
