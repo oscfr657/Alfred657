@@ -15,7 +15,7 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 ### run ###
 
-> sudo python3 clue.py &
+> python3 clue.py &
 
 ----
 
@@ -52,13 +52,14 @@ at the end of the file but before "exit 0" add
  The default setting is 0 which is automatic.
 
 ----
+
 ## For development and testing ##
 
 > pip install requests, json
 
 ``` python
 import requsts, json
-r = requests.post('http://192.168.1.3/speak/', 
+r = requests.post('http://192.168.1.3/speak/',
                   json = {'key':'It is time for some testing.'})
 ```
 
@@ -74,3 +75,7 @@ os.system('espeak -ven+m6 -s125 "It is time for some testing." ')
 ## TODO ##
 
 * setting for voice type and number ?
+
+* exception handling and logging.
+
+* /speak/ responses
