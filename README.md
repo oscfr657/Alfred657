@@ -15,6 +15,14 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 ### run ###
 
+``` Python
+python3 -c 'import os; print(os.urandom(16))'
+```
+
+> and set the output as app.secret_key
+
+### and then run ###
+
 > python3 clue.py &
 
 ----
@@ -53,13 +61,32 @@ at the end of the file but before "exit 0" add
 
 ----
 
+### Startup with browser ###
+
+> sudo nano ~/.config/lxsession/LXDE-pi/autostart
+
+add
+
+``` bash
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xscreensaver -no-splash
+@point-rpi
+@xset s off
+@xset -dpms
+@xset s noblank
+@chromium-browser --kiosk --incognito http://localhost:5000
+```
+
 ## For development and testing ##
 
 > pip install requests, json
+>
+> python3
 
 ``` python
 import requsts, json
-r = requests.post('http://192.168.1.3/speak/',
+r = requests.post('http://localhost:5000/speak/',
                   json = {'key':'It is time for some testing.'})
 ```
 
