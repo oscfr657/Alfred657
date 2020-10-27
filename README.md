@@ -9,9 +9,17 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 > sudo apt install espeak
 
-### and Flask ###
+### Flask ###
 
 > sudo apt install python3-flask
+
+### Pip ###
+
+> sudo apt install python3-pip
+
+### Python MediaWiki ###
+
+> pip3 install MediaWiki
 
 ### run ###
 

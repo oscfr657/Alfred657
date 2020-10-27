@@ -33,6 +33,17 @@ function tellTime() {
     xhttp.send();
 }
 
+function readWiki() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "{{ url_for('speak') }}");
+    xhttp.setRequestHeader(
+        "Content-Type",
+        "application/json;charset=UTF-8");
+    /*title = document.getElementById("w_title").innerHTML */
+    summary = document.getElementById("w_summary").innerHTML
+    response = xhttp.send(JSON.stringify({"string": summary } ));
+}
+
 function calendar() {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -71,9 +82,17 @@ function bodyLoaded() {
 <div class="menu">
     <ul>
         <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
             <a href="#" 
             onclick="tellTime();return false;"
             title="Click to get the time">Time</a>
+        </li>
+        <li>
+            <a href="#" 
+            onclick="readWiki();return false;"
+            title="Click to get the time">Read facts</a>
         </li>
         <li>
             <a href="{{ url_for('talk') }}"
@@ -85,6 +104,23 @@ function bodyLoaded() {
 <div class="display">
     <p id="currentTime"></p>
 </div>
+
+{% if r_word %}
+<div class="display">
+    <h3 id="r_word">Random word: {{ r_word }}</h3>
+</div>
+{% endif %}
+
+{% if wp_article %}
+<div class="display">
+    
+    <h2 id="w_title">
+        Wikipedia: <a href="{{ wp_article.url }}">{{ wp_article.title }}</a>
+    </h2>
+    
+    <p id="w_summary">{{ wp_article.summary }}</p>
+</div>
+{% endif %}
 
 </body>
 </html>
