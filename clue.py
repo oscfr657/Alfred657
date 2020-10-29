@@ -47,6 +47,7 @@ def get_wikipedia_article(s_word):
 @app.route('/', methods=['GET'])
 def index():
     wp_article = False
+    r_word = False
     for x in range(5):
         try:
             r_word = get_random_word()

@@ -17,9 +17,19 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 > sudo apt install python3-pip
 
-### Python MediaWiki ###
+### Python [MediaWiki](https://pymediawiki.readthedocs.io/en/latest/index.html) ###
 
-> pip3 install MediaWiki
+> sudo pip3 install pymediawiki
+
+### wordlist
+
+> apt-cache search wordlist
+
+> sudo apt install wbritish
+
+> sudo apt install wswedish
+
+> sudo select-default-wordlist
 
 ### run ###
 
