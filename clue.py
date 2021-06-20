@@ -10,9 +10,9 @@ except ModuleNotFoundError:
 
 from flask import (
     Flask,
-    request, jsonify, abort,
+    request, abort,
     render_template,
-    session, redirect, url_for, escape
+    session
     )
 
 app = Flask(__name__)
@@ -63,26 +63,6 @@ def index():
         name=name,
         r_word=r_word,
         wp_article=wp_article)
-
-
-@app.route('/login/', methods=['GET', 'POST'])
-def login():
-    name = session.get('username', False)
-    if name:
-        os.system('espeak -ven+m6 -s125 "Hello {0}" '.format(name))
-    if request.method == 'POST':
-        username = request.form['username']
-        os.system('espeak -ven+m6 -s125 "Hello {0}" '.format(username))
-        name = username
-        session['username'] = username
-        return redirect(url_for('index'))
-    return render_template('login.html', name=name)
-
-
-@app.route('/logout/')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('index'))
 
 
 @app.route('/talk/', methods=['GET', 'POST'])

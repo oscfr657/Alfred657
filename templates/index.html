@@ -10,6 +10,26 @@
 
 <script>
 
+var mode = 'light'
+
+function changeMode() {
+    switch(mode) {
+        case 'light':
+            document.body.style.backgroundColor = "white";
+            document.body.style.color = "black";
+            mode = 'dark'
+            break;
+        case 'dark':
+            document.body.style.backgroundColor = "black";
+            document.body.style.color = "white";
+            mode = 'light'
+            break;
+        default:
+            document.body.style.backgroundColor = "white";
+            document.body.style.color = "black";
+    }
+}
+
 function currentTime() {
     var today = new Date();
     var h = today.getHours();
@@ -41,17 +61,7 @@ function readWiki() {
         "application/json;charset=UTF-8");
     /*title = document.getElementById("w_title").innerHTML */
     summary = document.getElementById("w_summary").innerHTML
-    response = xhttp.send(JSON.stringify({"string": summary } ));
-}
-
-function calendar() {
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("calendar").innerHTML = this.response;
-        }
-    };
-    xhttp.open("GET", "/calendar/", true);
-    xhttp.send();
+    xhttp.send(JSON.stringify({"string": summary } ));
 }
 
 function bodyLoaded() {
@@ -62,23 +72,6 @@ function bodyLoaded() {
 </head>
 
 <body onload="bodyLoaded()">
-{% if name %}
-    <h1>Hello {{ name }}!</h1>
-    <div class="logout">
-        <p>
-            <a href="{{ url_for('logout') }}"
-               title="Logout">Logout</a>
-        </p>
-    </div>
-{% else %}
-    <h1>Hello!</h1>
-    <div class="login">
-        <p>
-            <a href="{{ url_for('login') }}"
-               title="Login">Login</a>
-        </p>
-    </div>
-{% endif %}
 <div class="menu">
     <ul>
         <li>
@@ -86,17 +79,18 @@ function bodyLoaded() {
         </li>
         <li>
             <a href="#" 
+            onclick="changeMode();return false;"
+            title="Click to change color mode.">Mode</a>
+        </li>
+        <li>
+            <a href="#" 
             onclick="tellTime();return false;"
-            title="Click to get the time">Time</a>
+            title="Click to get the time.">Time</a>
         </li>
         <li>
             <a href="#" 
             onclick="readWiki();return false;"
-            title="Click to get the time">Read facts</a>
-        </li>
-        <li>
-            <a href="{{ url_for('talk') }}"
-            title="Talk about it ?">Talk</a>
+            title="Click to get some facts.">Read facts</a>
         </li>
     </ul>
 </div>
