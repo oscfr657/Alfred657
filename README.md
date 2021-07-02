@@ -17,6 +17,10 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 > sudo apt install python3-pip
 
+### icalendar ###
+
+> pip3 install icalendar
+
 ### Python [MediaWiki](https://pymediawiki.readthedocs.io/en/latest/index.html) ###
 
 > sudo pip3 install pymediawiki

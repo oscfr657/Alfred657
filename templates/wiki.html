@@ -8,7 +8,7 @@
 
     <script src="{{ url_for('static', filename='utils.js') }}" async=""></script>
  
-<title>Alfred</title>
+<title>Wiki</title>
 
 </head>
 
@@ -29,7 +29,9 @@
             title="Click to get the time.">Time</a>
         </li>
         <li>
-            <a href="/wiki/">Wiki</a>
+            <a href="#" 
+            onclick="readWiki();return false;"
+            title="Click to get some facts.">Read facts</a>
         </li>
     </ul>
 </div>
@@ -39,16 +41,22 @@
     <p id="currentDate"></p>
 </div>
 
-{% if cal_events %}
+{% if r_word %}
 <div class="display">
-    <div id="cal_events">
-    {% for event in cal_events: %}
-        <p >{{ event.0.strftime('%Y-%m-%d %H:%M') }} : {{ event.1 }}</p>
-    {% endfor %}
-    </div>
+    <p id="r_word">Random word: {{ r_word }}</p>
 </div>
 {% endif %}
 
+{% if wp_article %}
+<div class="display">
+    
+    <h2 id="w_title">
+        Wikipedia: <a href="{{ wp_article.url }}">{{ wp_article.title }}</a>
+    </h2>
+    
+    <p id="w_summary">{{ wp_article.summary }}</p>
+</div>
+{% endif %}
 
 </body>
 </html>
