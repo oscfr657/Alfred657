@@ -117,7 +117,7 @@ def speak():
         return 'Fail'
 
 
-@app.route('/time', methods=['GET'])
+@app.route('/time/', methods=['GET'])
 def time():
     now = datetime.now()
     minute = now.minute

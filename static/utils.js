@@ -51,13 +51,13 @@ function formatTime(i) {
 
 function tellTime() {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "{{ url_for('time') }}", true);
+    xhttp.open("GET", "/time/", true);
     xhttp.send();
 }
 
 function readWiki() {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "{{ url_for('speak') }}");
+    xhttp.open("POST", "/speak/");
     xhttp.setRequestHeader(
         "Content-Type",
         "application/json;charset=UTF-8");

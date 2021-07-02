@@ -19,7 +19,7 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 ### icalendar ###
 
-> pip3 install icalendar
+> sudo pip3 install icalendar
 
 ### Python [MediaWiki](https://pymediawiki.readthedocs.io/en/latest/index.html) ###
 
