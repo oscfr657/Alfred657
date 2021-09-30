@@ -4,8 +4,7 @@ from datetime import datetime
 import random
 
 from icalendar import Calendar
-from datetime import datetime
-from pytz import UTC # timezone
+import pytz # timezone
 import requests
 try:
     from mediawiki import MediaWiki
@@ -55,16 +54,20 @@ def get_wikipedia_article(s_word):
 def index():
     try:
         if cal_url:
-            now = datetime.now()
+            datetime_now = datetime.now()
             r = requests.get(cal_url)
             cal_events = []
             gcal = Calendar.from_ical(r.content)
             for component in gcal.walk():
+                if component.name == "VTIMEZONE":
+                    datetime_now = datetime_now.replace(tzinfo=pytz.timezone(component.get('TZID')))
+            for component in gcal.walk():
                 if component.name == "VEVENT":
-                    if component.get('dtstart').dt >= now.date() and component.get('dtstart').dt.year <= now.year :
+                    if component.get('dtstart').dt >= datetime_now and component.get('dtstart').dt.year <= datetime_now.year:
                         cal_events.append([component.get('dtstart').dt, component.get('summary')])
             cal_events.sort(key=lambda e:e[0])
     except Exception as e:
+        print('Exception')
         print(e)
     return render_template('index.html', cal_events=cal_events)
 
