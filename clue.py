@@ -20,13 +20,20 @@ from flask import (
     session
     )
 
+import logging
+logging.basicConfig(filename='rerror.log', level=logging.ERROR, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+
 app = Flask(__name__)
 
 app.secret_key = b'dumboPassword'
 
 wikiurl = 'https://en.wikipedia.org/w/api.php'
 
-cal_url = u'https://calendar.google.com/calendar/ical/sv.swedish%23holiday%40group.v.calendar.google.com/public/basic.ics'
+cal_urls = [
+    u'https://calendar.google.com/calendar/ical/sv.swedish%23holiday%40group.v.calendar.google.com/public/basic.ics',
+]
+
+PYTZ_TIMEZONE = pytz.UTC
 
 
 def get_random_word():
@@ -46,29 +53,41 @@ def get_wikipedia_article(s_word):
         wp_article = wikipedia.page(random.choice(e.options))
         return wp_article
     except Exception as e:
-        print(e)
+        app.logger.info('Exception')
+        app.logger.info(e)
         return False
 
 
 @app.route('/', methods=['GET'])
 def index():
     try:
-        if cal_url:
-            datetime_now = datetime.now()
+        cal_events = []
+        for cal_url in cal_urls:
+            datetime_now = datetime.now(tz=PYTZ_TIMEZONE)
             r = requests.get(cal_url)
-            cal_events = []
             gcal = Calendar.from_ical(r.content)
             for component in gcal.walk():
-                if component.name == "VTIMEZONE":
-                    datetime_now = datetime_now.replace(tzinfo=pytz.timezone(component.get('TZID')))
+                try:
+                    if component.name == "VTIMEZONE":
+                        datetime_now = datetime_now.replace(tzinfo=pytz.timezone(component.get('TZID')))
+                except Exception as e:
+                    app.logger.info('Exception: VTIMEZONE')
+                    app.logger.info(e)
             for component in gcal.walk():
                 if component.name == "VEVENT":
-                    if component.get('dtstart').dt >= datetime_now and component.get('dtstart').dt.year <= datetime_now.year:
-                        cal_events.append([component.get('dtstart').dt, component.get('summary')])
-            cal_events.sort(key=lambda e:e[0])
+                    try:
+                        dtstart = component.get('DTSTART').dt
+                        if not isinstance(dtstart, datetime):
+                            dtstart = datetime.combine(dtstart, datetime.min.time(), tzinfo=PYTZ_TIMEZONE)
+                        if dtstart >= datetime_now:
+                                cal_events.append([dtstart, component.get('SUMMARY')])
+                    except Exception as e:
+                        app.logger.info('Exception: DTSTART ')
+                        app.logger.info(e)
+        cal_events.sort(key=lambda e: e[0])
     except Exception as e:
-        print('Exception')
-        print(e)
+        app.logger.info('Exception: index')
+        app.logger.info(e)
     return render_template('index.html', cal_events=cal_events)
 
 
@@ -85,7 +104,8 @@ def wiki():
             else:
                 break
         except Exception as e:
-            print(e)
+            app.logger.info('Exception')
+            app.logger.info(e)
     return render_template('wiki.html',
         r_word=r_word,
         wp_article=wp_article)
@@ -99,8 +119,9 @@ def talk():
         try:
             os.system('espeak -ven+m6 -s125 "{0}" '.format(string))
             return render_template('talk.html')
-        except Exception:
-            # logging ?
+        except Exception as e:
+            app.logger.info('Exception')
+            app.logger.info(e)
             return abort(400)
     return render_template('talk.html')
 
@@ -112,8 +133,9 @@ def speak():
             jsonfile = request.get_json()
             string = jsonfile['string']
             os.system('espeak -ven+m6 -s125 "{0}"'.format(string))
-        except Exception:
-            # logging ?
+        except Exception as e:
+            app.logger.info('Exception')
+            app.logger.info(e)
             return abort(400)
         return 'Success'
     else:
@@ -129,7 +151,9 @@ def time():
     time_string = '{0} {1}'.format(now.hour, minute)
     try:
         os.system('espeak -ven+m6 -s125 "The time is {0}"'.format(time_string))
-    except Exception:
+    except Exception as e:
+        app.logger.info('Exception')
+        app.logger.info(e)
         return 'Fail'
     return 'Success'
 

@@ -87,6 +87,10 @@ at the end of the file but before "exit 0" add
 
 > sudo nano ~/.config/lxsession/LXDE-pi/autostart
 
+or
+
+> sudo nano /etc/xdg/lxsession/LXDE/autostart
+
 add
 
 ``` bash
@@ -124,7 +128,5 @@ os.system('espeak -ven+m6 -s125 "It is time for some testing." ')
 ## TODO ##
 
 * setting for voice type and number ?
-
-* exception handling and logging.
 
 * /speak/ responses
