@@ -25,14 +25,14 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 > sudo pip3 install pymediawiki
 
-### wordlist
+### wordlist ###
 
 > apt-cache search wordlist
-
+>
 > sudo apt install wbritish
-
+>
 > sudo apt install wswedish
-
+>
 > sudo select-default-wordlist
 
 ### run ###
@@ -61,28 +61,6 @@ at the end of the file but before "exit 0" add
 
 >/home/pi/projects/Alfred657/startup_script
 
-## Audio problems on Raspberry Pi ##
-
-### Volume settings ###
-
-> amixer scontrols
->
-> amixer sget 'PCM'
->
-> amixer sset 'PCM' 50%
-
-### [Audio Output](https://www.raspberrypi.org/documentation/configuration/audio-config.md "Audio Output") ###
-
-> amixer cset numid=3 2
-
- Here the output is being set to 2, which is HDMI.
-
- Setting the output to 1 switches to analogue (headphone jack).
-
- The default setting is 0 which is automatic.
-
-----
-
 ### Startup with browser ###
 
 > sudo nano ~/.config/lxsession/LXDE-pi/autostart
@@ -103,6 +81,44 @@ add
 @xset s noblank
 @chromium-browser --kiosk --incognito http://localhost:5000
 ```
+
+### [Audio Output](https://www.raspberrypi.org/documentation/configuration/audio-config.md "Audio Output") ###
+
+> amixer cset numid=3 2
+
+ Here the output is being set to 2, which is HDMI.
+
+ Setting the output to 1 switches to analogue (headphone jack).
+
+ The default setting is 0 which is automatic.
+
+### Volume settings ###
+
+> amixer scontrols
+>
+> amixer sget 'PCM'
+>
+> amixer sset 'PCM' 50%
+
+### Screen ###
+
+#### Screen brightness ####
+
+> sudo nano /sys/class/backlight/rpi_backlight/brightness
+>
+> 0 - 255
+
+### Screen rotation ###
+
+sudo nano /boot/config.txt
+
+> display_rotate=3
+
+The Raspberry Pi touchscreen
+
+> lcd_rotate=3
+
+----
 
 ## For development and testing ##
 
