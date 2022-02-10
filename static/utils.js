@@ -1,5 +1,4 @@
 
-
 var mode = 'dark'
 
 function changeMode() {
@@ -27,26 +26,14 @@ function changeMode() {
 }
 
 function currentTime() {
-    var current_date = new Date();
-    var y = current_date.getFullYear();
-    var n = current_date.getMonth() + 1;
-    var d = current_date.getDate();
-    var h = current_date.getHours();
-    var m = current_date.getMinutes();
-    var s = current_date.getSeconds();
-    h = formatTime(h);
-    m = formatTime(m);
-    s = formatTime(s);
-    var time_now = h + ':' + m + ':' + s;
-    var date_now = d + '-' + n + '-' + y;
+    var current_date_time = new Date();
+    var date_now = current_date_time.toLocaleString(navigator.language, {day: '2-digit', month: '2-digit', year: 'numeric'});
+    var weekday = current_date_time.toLocaleString(navigator.language, {weekday:'long'});
+    var time_now = current_date_time.toLocaleString(navigator.language, {hour: '2-digit', minute:'2-digit', second:'2-digit'});
     document.getElementById("currentTime").innerHTML = time_now;
+    document.getElementById("currentWeekday").innerHTML = weekday;
     document.getElementById("currentDate").innerHTML = date_now;
-    var t = setTimeout(currentTime, 500);
-}
-
-function formatTime(i) {
-    if (i < 10) {i = "0" + i};
-    return i;
+    var t = setTimeout(currentTime, 1000);
 }
 
 function tellTime() {
