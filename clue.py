@@ -21,7 +21,7 @@ from flask import (
     )
 
 import logging
-logging.basicConfig(filename='rerror.log', level=logging.ERROR, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+logging.basicConfig(filename='error.log', level=logging.ERROR, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 app = Flask(__name__)
 
@@ -79,8 +79,10 @@ def index():
                         dtstart = component.get('DTSTART').dt
                         if not isinstance(dtstart, datetime):
                             dtstart = datetime.combine(dtstart, datetime.min.time(), tzinfo=PYTZ_TIMEZONE)
+                        if not dtstart.tzinfo:
+                            dtstart = dtstart.replace(tzinfo=PYTZ_TIMEZONE)
                         if dtstart >= datetime_now:
-                                cal_events.append([dtstart, component.get('SUMMARY')])
+                            cal_events.append([dtstart, component.get('SUMMARY')])
                     except Exception as e:
                         app.logger.info('Exception: DTSTART ')
                         app.logger.info(e)

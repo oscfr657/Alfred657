@@ -16,7 +16,7 @@ Licensor: Oscar Fröberg
 
 ----
 
-## Alfred657 Copyright (2021) Oscar Fröberg(“Licensor”) ##
+## Alfred657 Copyright (2022) Oscar Fröberg(“Licensor”) ##
 
 ## Hippocratic License Version Number: 2.1 ##
 
