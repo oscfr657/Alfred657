@@ -44,7 +44,9 @@
 <div class="display">
     <div id="cal_events">
     {% for event in cal_events: %}
-        <p >{{ event.0.strftime('%Y-%m-%d %H:%M') }} : {{ event.1 }}</p>
+        <p data-event_time="{{ event.0.strftime('%H:%M:%S') }}" data-what="{{ event.1 }}">
+            {{ event.0.strftime('%Y-%m-%d %H:%M') }} : {{ event.1 }}
+        </p>
     {% endfor %}
     </div>
 </div>

@@ -3,6 +3,10 @@
 
 A small digtal voice assistent suitable to run on a Raspberry Pi.
 
+## Requirements
+
+    Python >= 3.9.0
+
 ## Setup ##
 
 ### You need espeek ###
@@ -19,7 +23,7 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 
 ### icalendar ###
 
-> sudo pip3 install icalendar
+> sudo apt install python3-icalendar
 
 ### Python [MediaWiki](https://pymediawiki.readthedocs.io/en/latest/index.html) ###
 
@@ -51,6 +55,13 @@ python3 -c 'import os; print(os.urandom(16))'
 
 ## RaspberryPi ##
 
+### Copy from your local mashine to the Raspberry Pi ###
+
+    Yuu can use scp:
+    scp -r static/ pi@10.0.0.2:/home/pi/projects/Alfred657/
+    scp -r templates/ pi@10.0.0.2:/home/pi/projects/Alfred657/
+    scp clue.py  pi@10.0.0.2:/home/pi/projects/Alfred657/
+
 ### [To set it to start on boot up](http://www.raspberry-projects.com/pi/pi-operating-systems/raspbian/scripts "Setup") ###
 
 >sudo chmod 755 startup_script
@@ -63,11 +74,8 @@ at the end of the file but before "exit 0" add
 
 ### Startup with browser ###
 
-> sudo nano ~/.config/lxsession/LXDE-pi/autostart
-
-or
-
-> sudo nano /etc/xdg/lxsession/LXDE/autostart
+    sudo mkdir ~/.config/lxsession/LXDE-pi
+    sudo nano ~/.config/lxsession/LXDE-pi/autostart
 
 add
 
@@ -108,15 +116,19 @@ add
 >
 > 0 - 255
 
-### Screen rotation ###
+### [Screen rotation](https://www.raspberrypi.com/documentation/accessories/display.html) ###
 
-sudo nano /boot/config.txt
+#### The Raspberry Pi touchscreen
+    
+    sudo nano /boot/config.txt
+    display_lcd_rotate=2
+    lcd_rotate=2
 
-> display_rotate=3
+##### [Bug workaround](https://github.com/raspberrypi/linux/issues/4686) ####
 
-The Raspberry Pi touchscreen
-
-> lcd_rotate=3
+    sudo nano /boot/config.txt
+    dtparam=i2c_vc_baudrate=5000
+    lcd_rotate=2
 
 ----
 

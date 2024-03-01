@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 import random
 
 from icalendar import Calendar
-import pytz # timezone
+
 import requests
 try:
     from mediawiki import MediaWiki
@@ -33,7 +34,7 @@ cal_urls = [
     u'https://calendar.google.com/calendar/ical/sv.swedish%23holiday%40group.v.calendar.google.com/public/basic.ics',
 ]
 
-PYTZ_TIMEZONE = pytz.UTC
+TIMEZONE = ZoneInfo('Europe/Stockholm')
 
 
 def get_random_word():
@@ -63,13 +64,14 @@ def index():
     try:
         cal_events = []
         for cal_url in cal_urls:
-            datetime_now = datetime.now(tz=PYTZ_TIMEZONE)
+            datetime_now = datetime.now(tz=TIMEZONE)
             r = requests.get(cal_url)
             gcal = Calendar.from_ical(r.content)
+            timezone = TIMEZONE
             for component in gcal.walk():
                 try:
                     if component.name == "VTIMEZONE":
-                        datetime_now = datetime_now.replace(tzinfo=pytz.timezone(component.get('TZID')))
+                        timezone = ZoneInfo(component.get('TZID'))
                 except Exception as e:
                     app.logger.info('Exception: VTIMEZONE')
                     app.logger.info(e)
@@ -78,9 +80,11 @@ def index():
                     try:
                         dtstart = component.get('DTSTART').dt
                         if not isinstance(dtstart, datetime):
-                            dtstart = datetime.combine(dtstart, datetime.min.time(), tzinfo=PYTZ_TIMEZONE)
-                        if not dtstart.tzinfo:
-                            dtstart = dtstart.replace(tzinfo=PYTZ_TIMEZONE)
+                            dtstart = datetime.combine(dtstart, datetime.min.time(), tzinfo=timezone)
+                        if not dtstart.tzinfo or dtstart.tzinfo != timezone:
+                            dtstart = dtstart.astimezone(timezone)
+                        if str(dtstart.tzinfo) != str(datetime_now.tzinfo):
+                            dtstart = dtstart - timedelta(hours=dtstart.utcoffset().seconds/60/60)
                         if dtstart >= datetime_now:
                             cal_events.append([dtstart, component.get('SUMMARY')])
                     except Exception as e:

@@ -4,6 +4,10 @@
 
 ## commits ##
 
+### 1 Mar 2024 ###
+
+    Python >= 3.9.0, checkAndReportTodo utils.js, README.md improvements and License year.
+
 ### 5 Apr 2022 ###
 
     Added a changlog. Updated the license year. Added error.log to gitignore. tzinfo bug fix.
