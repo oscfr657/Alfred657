@@ -4,6 +4,10 @@
 
 ## commits ##
 
+### 2 Mar 2024 ###
+
+    Date and time bug fix in frontend reminder function checkAndReportTodo.
+
 ### 1 Mar 2024 ###
 
     Python >= 3.9.0, checkAndReportTodo utils.js, README.md improvements and License year.

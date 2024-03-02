@@ -25,13 +25,13 @@ function changeMode() {
 
 function currentTime() {
     let current_date_time = new Date();
-    let date_now = current_date_time.toLocaleString(navigator.language, {day: '2-digit', month: '2-digit', year: 'numeric'});
+    let date_now = current_date_time.toLocaleString('sv-SE', {day: '2-digit', month: '2-digit', year: 'numeric'});
     let weekday = current_date_time.toLocaleString(navigator.language, {weekday:'long'});
-    let time_now = current_date_time.toLocaleString(navigator.language, {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+    let time_now = current_date_time.toLocaleString('sv-SE', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
     document.getElementById("currentTime").innerHTML = time_now;
     document.getElementById("currentWeekday").innerHTML = weekday;
     document.getElementById("currentDate").innerHTML = date_now;
-    checkAndReportTodo(time_now);
+    checkAndReportTodo(current_date_time);
     let t = setTimeout(currentTime, 1000);
 }
 
@@ -46,10 +46,15 @@ function readWiki() {
     readThis(summary);
 }
 
-function checkAndReportTodo(time_now) {
+function checkAndReportTodo(date_time) {
+    let date_time_string = date_time.toLocaleString(
+            'sv-SE', 
+            { year: 'numeric', month: '2-digit', day: '2-digit', 
+              hour: '2-digit', minute:'2-digit', second:'2-digit'
+            });
     event_list = document.getElementById("cal_events").getElementsByTagName('p');
     for (let i=0, event; event = event_list[i]; i++) {
-        if (event.dataset.event_time == time_now) {
+        if (event.dataset.datetime == date_time_string) {
             console.log(event.dataset.what);
             let timeFor = 'It is time for ' + event.dataset.what;
             readThis(timeFor);
