@@ -58,7 +58,9 @@ function checkAndReportTodo(date_time) {
             console.log(event.dataset.what);
             let timeFor = 'It is time for ' + event.dataset.what;
             readThis(timeFor);
-            location.reload();
+            let t = setTimeout(function () {
+                location.reload();
+            }, 5000);
             break;
         }
     }
