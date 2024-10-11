@@ -1,0 +1,12 @@
+[Unit]
+Description=Alfred
+After=network.target
+
+[Service]
+WorkingDirectory=/home/username/projects/Alfred657/
+ExecStart=/home/username/projects/Alfred657/env/bin/python3 /home/username/projects/Alfred657/clue.py &
+Restart=on-failure
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

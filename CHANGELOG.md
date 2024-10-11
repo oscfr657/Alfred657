@@ -4,6 +4,10 @@
 
 ## commits ##
 
+### 12 Oct 2024
+
+    Utils js checkAndReportTodo bug fix. Added a alfred.service
+
 ### 2 Mar 2024 ###
 
     Date and time bug fix in frontend reminder function checkAndReportTodo.

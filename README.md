@@ -39,7 +39,7 @@ A small digtal voice assistent suitable to run on a Raspberry Pi.
 >
 > sudo select-default-wordlist
 
-### run ###
+### Flask app secret key ###
 
 ``` Python
 python3 -c 'import os; print(os.urandom(16))'
@@ -47,7 +47,7 @@ python3 -c 'import os; print(os.urandom(16))'
 
 > and set the output as app.secret_key
 
-### and then run ###
+### Run ###
 
 > python3 clue.py &
 
@@ -129,6 +129,30 @@ add
     sudo nano /boot/config.txt
     dtparam=i2c_vc_baudrate=5000
     lcd_rotate=2
+
+## Ubuntu 24.04 ##
+
+### alfred.service ###
+
+    sudo cp alfred.service.example alfred.service
+
+    Update the paths in alfred.service
+
+    sudo cp alfred.service /etc/systemd/system/
+
+    sudo systemctl daemon-reload
+
+    sudo systemctl start alfred.service
+
+    sudo systemctl status alfred.service
+
+    sudo systemctl stop alfred.service
+
+    sudo systemctl restart alfred.service
+
+    sudo systemctl enable alfred.service
+
+    sudo systemctl disable alfred.service
 
 ----
 
